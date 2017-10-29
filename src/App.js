@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Card from './Card';
 import Autocomplete from 'react-autocomplete'
+import { Navbar, FormGroup, FormControl, Jumbotron, Button } from 'react-bootstrap';
+
 
 class App extends Component {
 
@@ -11,6 +13,7 @@ class App extends Component {
 
     this.loadResults = this.loadResults.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       cards: [],
@@ -38,34 +41,31 @@ class App extends Component {
     this.loadResults(this.state.value);
   }
 
+  handleChange(e) {
+    this.setState({ value: e.target.value });
+  }
+
   render() {
     return (
       <div className="App">
 
-        Ukradli mi 
-        <Autocomplete
-          key="autocomplete"
-          getItemValue={(item) => item.label}
-          items={[
-            { label: 'rower kellys' },
-            { label: 'buty alpinus' }
-          ]}
-          renderItem={(item, isHighlighted) =>
-            <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-              {item.label}
-            </div>
-          }
-          value={this.state.value}
-          onChange={e => this.setState({ value: e.target.value })}
-          onSelect={value => this.setState({ value })}
-        />
-        
-        <button onClick={this.handleClick}>
-          Znajdź
-        </button>
-
-        <br />
-
+        <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="#">Ukradli mi</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Navbar.Form pullLeft>
+              <FormGroup>
+                <FormControl type="text" value={this.state.value} onChange={this.handleChange} />
+              </FormGroup>
+              {' '}
+              <Button onClick={this.handleClick}>Znajdź</Button>
+            </Navbar.Form>
+          </Navbar.Collapse>
+        </Navbar>
         {this.state.cards.map(card => <Card key={card.imgUrl} imageUrl={card.imgUrl} />)}
       </div>
     );
